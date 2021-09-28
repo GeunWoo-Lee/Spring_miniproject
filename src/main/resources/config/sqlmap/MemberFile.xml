@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spms.dao.MemberFileDAO">
+	
+<select id="selectList" resultType="memberFile">
+	select fno,mno,ori_file as oriFile,real_file as realFile,
+	file_path as filePath,file_size as fileSize,cre_date as createDate
+	from member_files
+	order by fno asc
+</select>	
+
+<insert id="insert" parameterType="memberFile">
+	insert into member_files(fno,mno,ori_file,real_file,file_path,file_size)
+	values(seq_member_files_fno.nextVal,seq_members_mno.currVal,#{oriFile},
+	#{realFile},#{filePath},#{fileSize})
+</insert>
+
+<select id="selectOneMember" parameterType="int" 
+resultType="memberFile"> 
+	select fno,mno,ori_file as oriFile,real_file as realFile,
+	file_path as filePath,file_size as fileSize,cre_date as createDate
+	from member_files
+	where mno =#{value}
+</select>
+
+<update id="update" parameterType="memberFile">
+	update member_files set 
+	ori_file=#{oriFile},
+	real_file=#{realFile},
+	file_path=#{filePath},
+	file_size=#{fileSize},
+	cre_date=sysdate
+	where fno = #{fno}
+</update>
+
+<delete id="delete" parameterType="int"	>
+	delete from member_files
+	where mno = #{value}
+</delete>
+
+
+</mapper>  
+  
